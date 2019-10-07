@@ -17,8 +17,21 @@ void viewBoard(char arry[6][7]) {
 }
 
 //function to insert the value into the board
-void insertBoard(char x, char arry[6][7]) {
-	
+void insertBoard(int bsize, int input, char player, char arry[6][7]) {
+	int i = 0;
+
+	for (i = bsize; i != 0; i--) {
+		if (arry[i][input] == '.') {
+			arry[i][input] = player;
+			break;
+		}
+		else if ((arry[i][input] != '.') && (i == 0)) {
+			break;
+		}
+		else {
+			i--;
+		}
+	}
 }
 
 //function to check if there was a win
@@ -36,6 +49,7 @@ int main() {
 	//creating variables
 	bool win, done;
 	int i, j, n, in;
+	char player1, player2;
 
 	//initializing variables
 	win = 0;
@@ -44,6 +58,8 @@ int main() {
 	j = 0;
 	n = 5;
 	in = 0;
+	player1 = 'X';
+	player2 = 'O';
 
 	//creating and initializing the board
 	char board[6][7] = {
@@ -59,12 +75,13 @@ int main() {
 	do {
 
 		viewBoard(board);
+		//Player 1's turn
 		cout << "Place a piece ('X') on an available spot on the board by entering a column number:\n";
 		cin >> in;
 		in = in - 1;
 
 
-		for (i = n; i != 0; i--) {
+		/*for (i = n; i != 0; i--) {
 			if (board[i][in] == '.') {
 				board[i][in] = 'X';
 				break;
@@ -75,28 +92,18 @@ int main() {
 			else {
 				i--;
 			}
-		}
+		}*/
 
+		insertBoard(n, in, player1, board);
 
 		viewBoard(board);
 
+		//Player 2's turn
 		cout << "Place a piece ('O') on the board by entering a column number:\n";
 		cin >> in;
 		in = in - 1;
 
-		for (i = n; i != 0; i--) {
-			if (board[i][in] == '.') {
-				board[i][in] = '0';
-				break;
-			}
-			else if ((board[i][in] != '.') && (i == 0)) {
-				break;
-			}
-			else {
-				i--;
-			}
-		}
-
+		insertBoard(n, in, player2, board);
 		viewBoard(board);
 		win = true;
 
