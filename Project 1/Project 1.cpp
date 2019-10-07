@@ -17,10 +17,19 @@ void viewBoard(char arry[6][7]) {
 }
 
 //function to insert the value into the board
-
+void insertBoard(char x, char arry[6][7]) {
+	
+}
 
 //function to check if there was a win
+	//only call this function after each player has gone 4 times(?)
+bool checkBoard(char arry[6][7]) {
+	//if win
+	//return true;
 
+	//else
+	//return false
+}
 
 
 int main() {
@@ -29,12 +38,11 @@ int main() {
 	int i, j, n, in;
 
 	//initializing variables
-	win = 0;
-	done = 0;
-	//i = 0;
+	//win = 0;
+	//done = 0;
+	i = 0;
 	j = 0;
 	n = 5;
-	i = n;
 	in = 0;
 
 	//creating and initializing the board
@@ -56,7 +64,7 @@ int main() {
 		in = in - 1;
 
 
-		for (; i != 0; i--) {
+		for (i = n; i != 0; i--) {
 			if (board[i][in] == '.') {
 				board[i][in] = 'X';
 				break;
@@ -79,9 +87,6 @@ int main() {
 
 
 	} while (!win && done);
-
-
-
 
 
 	return 0;
