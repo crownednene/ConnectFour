@@ -6,6 +6,9 @@ using namespace std;
 //displays the board in it's current state
 void viewBoard(char arry[6][7]) {
 	int a, b;
+	a = 0;
+	b = 0;
+	
 	cout << "1234567\n";
 	for (a = 0; a < 6; a++) {
 		for (b = 0; b < 7; b++) {
@@ -17,7 +20,7 @@ void viewBoard(char arry[6][7]) {
 }
 
 //function to insert the value into the board
-void insertBoard(int bsize, int input, char player, char arry[6][7]) {
+void insertBoard(int bsize,int input, char player, char arry[6][7]) {
 	int i = 0;
 
 	for (i = bsize; i != 0; i--) {
@@ -29,19 +32,50 @@ void insertBoard(int bsize, int input, char player, char arry[6][7]) {
 			break;
 		}
 		else {
-			i--;
+			continue;
 		}
 	}
 }
 
 //function to check if there was a win
-	//only call this function after each player has gone 4 times(?)
 bool checkBoard(char arry[6][7]) {
-	//if win
-	return true;
+	int a, b;
+	char compare1, compare2;
+	int locArry[2] = {0, 0};
+	compare1 = '0';
+	compare2 = '0';
+	a = 6 - 1;
+	b = 7 - 1;
 
-	//else
-	//return false;
+	for (; a > 0; a--) {
+		for (; b > 0; b--) {
+			if (arry[a][b] != '.') {
+				compare1 = arry[a][b];
+				if ((compare1 == arry[a - 1][b]) && (compare1 == arry[a - 2][b]) && (compare1 == arry[a - 3][b])) {
+					cout << "WIN!";
+					return true;
+				}
+				else if ((compare1 == arry[a][b-1]) && (compare1 == arry[a][b-2]) && (compare1 == arry[a][b-3])) {
+					cout << "WIN!";
+					return true;
+				}
+				//doesnt work
+				else if ((compare1 == arry[a + 1][b - 1]) && (compare1 == arry[a + 2][b - 2]) && (compare1 == arry[a + 3][b - 3])) {
+					cout << "WIN!";
+					return true;
+				}
+				//doesnt work
+				else if ((compare1 == arry[a + 1][b + 1]) && (compare1 == arry[a + 2][b + 2]) && (compare1 == arry[a + 3][b + 3])) {
+					cout << "WIN!";
+					return true;
+				}
+				else {
+					continue;
+				}
+			}	
+		}
+	}
+	return false;
 }
 
 
@@ -71,44 +105,27 @@ int main() {
 		{'.','.','.','.','.','.','.'}
 	};
 
+	viewBoard(board);
 
 	do {
-
-		viewBoard(board);
-		//Player 1's turn
-		cout << "Place a piece ('X') on an available spot on the board by entering a column number:\n";
+		cout << "Player X: Place your piece on the board by entering a column number:\n";
 		cin >> in;
 		in = in - 1;
-
-
-		/*for (i = n; i != 0; i--) {
-			if (board[i][in] == '.') {
-				board[i][in] = 'X';
-				break;
-			}
-			else if ((board[i][in] != '.') && (i == 0)) {
-				break;
-			}
-			else {
-				i--;
-			}
-		}*/
 
 		insertBoard(n, in, player1, board);
-
+		win = checkBoard(board);
 		viewBoard(board);
 
-		//Player 2's turn
-		cout << "Place a piece ('O') on the board by entering a column number:\n";
-		cin >> in;
-		in = in - 1;
+		if (win == 0) {
+			cout << "Player O: Place your piece on the board by entering a column number:\n";
+			cin >> in;
+			in = in - 1;
+			insertBoard(n, in, player2, board);
+			win = checkBoard(board);
+			viewBoard(board);
+		}
 
-		insertBoard(n, in, player2, board);
-		viewBoard(board);
-		win = true;
-
-	} while (!win && done);
-
+	} while (!win);
 
 	return 0;
 }
