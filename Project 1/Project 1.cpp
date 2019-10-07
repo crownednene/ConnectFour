@@ -25,10 +25,10 @@ void insertBoard(char x, char arry[6][7]) {
 	//only call this function after each player has gone 4 times(?)
 bool checkBoard(char arry[6][7]) {
 	//if win
-	//return true;
+	return true;
 
 	//else
-	//return false
+	//return false;
 }
 
 
@@ -38,8 +38,8 @@ int main() {
 	int i, j, n, in;
 
 	//initializing variables
-	//win = 0;
-	//done = 0;
+	win = 0;
+	done = 1;
 	i = 0;
 	j = 0;
 	n = 5;
@@ -80,11 +80,25 @@ int main() {
 
 		viewBoard(board);
 
+		cout << "Place a piece ('O') on the board by entering a column number:\n";
+		cin >> in;
+		in = in - 1;
+
+		for (i = n; i != 0; i--) {
+			if (board[i][in] == '.') {
+				board[i][in] = '0';
+				break;
+			}
+			else if ((board[i][in] != '.') && (i == 0)) {
+				break;
+			}
+			else {
+				i--;
+			}
+		}
+
+		viewBoard(board);
 		win = true;
-
-		//cout << "Place a piece ('O') on the board by entering a column number:\n";
-
-
 
 	} while (!win && done);
 
