@@ -60,12 +60,12 @@ bool checkBoard(char arry[6][7]) {
 					return true;
 				}
 				//doesnt work
-				else if ((compare1 == arry[a + 1][b - 1]) && (compare1 == arry[a + 2][b - 2]) && (compare1 == arry[a + 3][b - 3])) {
+				else if ((compare1 == arry[a - 1][b - 1]) && (compare1 == arry[a - 2][b - 2]) && (compare1 == arry[a - 3][b - 3])) {
 					cout << "WIN!";
 					return true;
 				}
 				//doesnt work
-				else if ((compare1 == arry[a + 1][b + 1]) && (compare1 == arry[a + 2][b + 2]) && (compare1 == arry[a + 3][b + 3])) {
+				else if ((compare1 == arry[a - 1][b + 1]) && (compare1 == arry[a - 2][b + 2]) && (compare1 == arry[a - 3][b + 3]) && b ) {
 					cout << "WIN!";
 					return true;
 				}
