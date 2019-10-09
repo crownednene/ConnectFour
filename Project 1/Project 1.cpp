@@ -23,7 +23,7 @@ void viewBoard(char arry[6][7]) {
 void insertBoard(int bsize, int input, char player, char arry[6][7]) {
 	int i = 0;
 
-	for (i = bsize; i != 0; i--) {
+	for (i = bsize; i >= 0; i--) {
 		if (arry[i][input] == '.') {
 			arry[i][input] = player;
 			break;
@@ -39,16 +39,19 @@ void insertBoard(int bsize, int input, char player, char arry[6][7]) {
 
 //function to check if there was a win
 bool checkBoard(char arry[6][7]) {
-	int i, j;
+	int i, j, empty_space;
 	char compare1, compare2;
 	int locArry[2] = {0, 0};
 	compare1 = '0';
 	compare2 = '0';
 	i = 6 - 1;
 	j = 7 - 1;
+	empty_space = 0;
 
-	for (; i > 0; i--) {
-		for (; j > 0; j--) {
+	for (i = 6 - 1; i >= 0; i--) {
+		//cout << "i: " << i << "\n";
+		for (j = 7 - 1; j >= 0; j--) {
+			//cout << "j: " << j << "\n";
 			if (arry[i][j] != '.') {
 				compare1 = arry[i][j];
 				if ((compare1 == arry[i - 1][j]) && (compare1 == arry[i - 2][j]) && (compare1 == arry[i - 3][j])) {
@@ -93,9 +96,18 @@ bool checkBoard(char arry[6][7]) {
 				else {
 					continue;
 				}
-			}	
+			}
+			else {
+				empty_space = empty_space + 1;
+			}
 		}
 	}
+
+	if (empty_space == 0) {
+		cout << "DRAW! FULL BOARD\n";
+		return true;
+	}
+
 	return false;
 }
 
