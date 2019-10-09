@@ -49,9 +49,9 @@ bool checkBoard(char arry[6][7]) {
 	empty_space = 0;
 
 	for (i = 6 - 1; i >= 0; i--) {
-		//cout << "i: " << i << "\n";
+
 		for (j = 7 - 1; j >= 0; j--) {
-			//cout << "j: " << j << "\n";
+
 			if (arry[i][j] != '.') {
 				compare1 = arry[i][j];
 				if ((compare1 == arry[i - 1][j]) && (compare1 == arry[i - 2][j]) && (compare1 == arry[i - 3][j])) {
@@ -73,7 +73,7 @@ bool checkBoard(char arry[6][7]) {
 					}
 					return true;
 				}
-				//doesnt work 
+
 				else if ((compare1 == arry[i - 1][j - 1]) && (compare1 == arry[i - 2][j - 2]) && (compare1 == arry[i - 3][j - 3])) {
 					if (compare1 == 'X') {
 						cout << "DIAGONAL WIN 1 FOR X!\n";
@@ -83,7 +83,7 @@ bool checkBoard(char arry[6][7]) {
 					}
 					return true;
 				}
-				//doesnt work if one of the pieces is in column 1
+
 				else if ((compare1 == arry[i - 1][j + 1]) && (compare1 == arry[i - 2][j + 2]) && (compare1 == arry[i - 3][j + 3])) {
 					if (compare1 == 'X') {
 						cout << "DIAGONAL WIN 2 FOR X!\n";
