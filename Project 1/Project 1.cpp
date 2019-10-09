@@ -5,14 +5,14 @@ using namespace std;
 
 //displays the board in it's current state
 void viewBoard(char arry[6][7]) {
-	int a, b;
-	a = 0;
-	b = 0;
+	int i, j;
+	i = 0;
+	j = 0;
 	
 	cout << "1234567\n";
-	for (a = 0; a < 6; a++) {
-		for (b = 0; b < 7; b++) {
-			cout << arry[a][b];
+	for (i = 0; i < 6; i++) {
+		for (j = 0; j < 7; j++) {
+			cout << arry[i][j];
 		}
 		cout << "\n";
 	}
@@ -39,34 +39,55 @@ void insertBoard(int bsize,int input, char player, char arry[6][7]) {
 
 //function to check if there was a win
 bool checkBoard(char arry[6][7]) {
-	int a, b;
+	int i, j;
 	char compare1, compare2;
 	int locArry[2] = {0, 0};
 	compare1 = '0';
 	compare2 = '0';
-	a = 6 - 1;
-	b = 7 - 1;
+	i = 6 - 1;
+	j = 7 - 1;
 
-	for (; a > 0; a--) {
-		for (; b > 0; b--) {
-			if (arry[a][b] != '.') {
-				compare1 = arry[a][b];
-				if ((compare1 == arry[a - 1][b]) && (compare1 == arry[a - 2][b]) && (compare1 == arry[a - 3][b])) {
-					cout << "WIN!";
+	for (; i > 0; i--) {
+		for (; j > 0; j--) {
+			if (arry[i][j] != '.') {
+				compare1 = arry[i][j];
+				if ((compare1 == arry[i - 1][j]) && (compare1 == arry[i - 2][j]) && (compare1 == arry[i - 3][j])) {
+					if (compare1 == 'X') {
+						cout << "VERTICAL WIN FOR X!\n";
+					}
+					else if (compare1 == 'O') {
+						cout << "VERTICAL WIN FOR O!\n";
+					}
+					
 					return true;
 				}
-				else if ((compare1 == arry[a][b-1]) && (compare1 == arry[a][b-2]) && (compare1 == arry[a][b-3])) {
-					cout << "WIN!";
+				else if ((compare1 == arry[i][j-1]) && (compare1 == arry[i][j-2]) && (compare1 == arry[i][j-3])) {
+					if (compare1 == 'X') {
+						cout << "HORIZONTAL WIN FOR X!\n";
+					}
+					else if (compare1 == 'O') {
+						cout << "HORIZONTAL WIN FOR O!\n";
+					}
 					return true;
 				}
-				//doesnt work
-				else if ((compare1 == arry[a - 1][b - 1]) && (compare1 == arry[a - 2][b - 2]) && (compare1 == arry[a - 3][b - 3])) {
-					cout << "WIN!";
+				//doesnt work 
+				else if ((compare1 == arry[i - 1][j - 1]) && (compare1 == arry[i - 2][j - 2]) && (compare1 == arry[i - 3][j - 3])) {
+					if (compare1 == 'X') {
+						cout << "DIAGONAL WIN 1 FOR X!\n";
+					}
+					else if (compare1 == 'O') {
+						cout << "DIAGONAL WIN 1 FOR O!\n";
+					}
 					return true;
 				}
-				//doesnt work
-				else if ((compare1 == arry[a - 1][b + 1]) && (compare1 == arry[a - 2][b + 2]) && (compare1 == arry[a - 3][b + 3]) && b ) {
-					cout << "WIN!";
+				//doesnt work if one of the pieces is in column 1
+				else if ((compare1 == arry[i - 1][j + 1]) && (compare1 == arry[i - 2][j + 2]) && (compare1 == arry[i - 3][j + 3])) {
+					if (compare1 == 'X') {
+						cout << "DIAGONAL WIN 2 FOR X!\n";
+					}
+					else if (compare1 == 'O') {
+						cout << "DIAGONAL WIN 2 FOR O!\n";
+					}
 					return true;
 				}
 				else {
