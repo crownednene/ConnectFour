@@ -20,7 +20,7 @@ void viewBoard(char arry[6][7]) {
 }
 
 //function to insert the value into the board
-void insertBoard(int bsize,int input, char player, char arry[6][7]) {
+void insertBoard(int bsize, int input, char player, char arry[6][7]) {
 	int i = 0;
 
 	for (i = bsize; i != 0; i--) {
