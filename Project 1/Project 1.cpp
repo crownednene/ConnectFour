@@ -111,8 +111,6 @@ bool checkBoard(char arry[6][7]) {
 	return false;
 }
 
-
-
  
 int main() {
 	//creating variables
