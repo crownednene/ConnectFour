@@ -138,25 +138,18 @@ void aiPlayer(char arry[6][7]) {
 	//		if (arry[i][j] != '.') {
 	//			compare1 = arry[i][j];
 	//			if ((compare1 == arry[i - 1][j]) && (compare1 == arry[i - 2][j]) && (compare1 == arry[i - 3][j])) {
-
 	//			}
 	//			else if ((compare1 == arry[i][j - 1]) && (compare1 == arry[i][j - 2]) && (compare1 == arry[i][j - 3])) {
-
 	//			}
-
 	//			else if ((compare1 == arry[i - 1][j - 1]) && (compare1 == arry[i - 2][j - 2]) && (compare1 == arry[i - 3][j - 3])) {
-
 	//			}
-
 	//			else if ((compare1 == arry[i - 1][j + 1]) && (compare1 == arry[i - 2][j + 2]) && (compare1 == arry[i - 3][j + 3])) {
-
 	//			}
 	//			else {
 	//				continue;
 	//			}
 	//		}
 	//		else {
-	//			
 	//		}
 	//	}
 	//}
