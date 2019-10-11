@@ -9,7 +9,11 @@ void viewBoard(char arry[6][7]) {
 	i = 0;
 	j = 0;
 	
-	cout << "1234567\n";
+	//loop through the column numbers
+	for (j = 1; j <= 7; j++) {
+		cout << j;
+	}
+	cout << "\n";
 	for (i = 0; i < 6; i++) {
 		for (j = 0; j < 7; j++) {
 			cout << arry[i][j];
@@ -20,10 +24,10 @@ void viewBoard(char arry[6][7]) {
 }
 
 //function to insert the value into the board
-void insertBoard(int bsize, int input, char player, char arry[6][7]) {
+void insertBoard(int input, char player, char arry[6][7]) {
 	int i = 0;
 
-	for (i = bsize; i >= 0; i--) {
+	for (i = 6; i >= 0; i--) {
 		if (arry[i][input] == '.') {
 			arry[i][input] = player;
 			break;
@@ -40,10 +44,9 @@ void insertBoard(int bsize, int input, char player, char arry[6][7]) {
 //function to check if there was a win
 bool checkBoard(char arry[6][7]) {
 	int i, j, empty_space;
-	char compare1, compare2;
+	char compare1;
 	int locArry[2] = {0, 0};
 	compare1 = '0';
-	compare2 = '0';
 	i = 6 - 1;
 	j = 7 - 1;
 	empty_space = 0;
@@ -111,16 +114,63 @@ bool checkBoard(char arry[6][7]) {
 	return false;
 }
 
+
+//function that resets every place on the board to '.'
+void resetBoard(char arry[6][7]) {
+	int i, j;
+	for (i = 0; i < 6; i++) {
+		for (j = 0; j < 7; j++) {
+			arry[i][j] = '.';
+		}
+	}
+}
+
+//have an artificial player try to beat the player
+void aiPlayer(char arry[6][7]) {
+	//int i, j;
+	//char compare1;
+
+	//for (i = 6 - 1; i >= 0; i--) {
+
+	//	for (j = 7 - 1; j >= 0; j--) {
+
+	//		if (arry[i][j] != '.') {
+	//			compare1 = arry[i][j];
+	//			if ((compare1 == arry[i - 1][j]) && (compare1 == arry[i - 2][j]) && (compare1 == arry[i - 3][j])) {
+
+	//			}
+	//			else if ((compare1 == arry[i][j - 1]) && (compare1 == arry[i][j - 2]) && (compare1 == arry[i][j - 3])) {
+
+	//			}
+
+	//			else if ((compare1 == arry[i - 1][j - 1]) && (compare1 == arry[i - 2][j - 2]) && (compare1 == arry[i - 3][j - 3])) {
+
+	//			}
+
+	//			else if ((compare1 == arry[i - 1][j + 1]) && (compare1 == arry[i - 2][j + 2]) && (compare1 == arry[i - 3][j + 3])) {
+
+	//			}
+	//			else {
+	//				continue;
+	//			}
+	//		}
+	//		else {
+	//			
+	//		}
+	//	}
+	//}
+
+}
  
 int main() {
 	//creating variables
-	bool win, done;
+	bool win;
 	int i, j, n, in;
-	char player1, player2;
+	char player1, player2, repeat;
 
 	//initializing variables
 	win = 0;
-	done = 1;
+	repeat = 'y';
 	i = 0;
 	j = 0;
 	n = 5;
@@ -129,36 +179,43 @@ int main() {
 	player2 = 'O';
 
 	//creating and initializing the board
-	char board[6][7] = {
-		{'.','.','.','.','.','.','.'},
-		{'.','.','.','.','.','.','.'},
-		{'.','.','.','.','.','.','.'},
-		{'.','.','.','.','.','.','.'},
-		{'.','.','.','.','.','.','.'},
-		{'.','.','.','.','.','.','.'}
-	};
-
-	viewBoard(board);
-
+	char board[6][7] = {};
+	
 	do {
-		cout << "Player X: Place your piece on the board by entering a column number:\n";
-		cin >> in;
-		in = in - 1;
-
-		insertBoard(n, in, player1, board);
-		win = checkBoard(board);
-		viewBoard(board);
-
-		if (win == 0) {
-			cout << "Player O: Place your piece on the board by entering a column number:\n";
+		resetBoard(board);
+			   
+		do {
+			viewBoard(board);
+			cout << "Player X: Place your piece on the board by entering a column number:\n";
 			cin >> in;
 			in = in - 1;
-			insertBoard(n, in, player2, board);
+
+			insertBoard(in, player1, board);
 			win = checkBoard(board);
 			viewBoard(board);
-		}
 
-	} while (!win);
+			if (win == 0) {
+				cout << "Player O: Place your piece on the board by entering a column number:\n";
+				cin >> in;
+				in = in - 1;
+				insertBoard(in, player2, board);
+				win = checkBoard(board);
+				//viewBoard(board, boardCol);
+			}
+
+		} while (!win);
+
+		cout << "Would you like to play again? Y/N\n";
+		cin >> repeat;
+
+		while ((repeat != 'Y') && (repeat != 'y') && (repeat != 'N') && (repeat != 'n')) {
+			cout << "Input not recognized. Please pick Y/N\n";
+			cin >> repeat;
+		} 
+
+
+	} while (repeat == 'Y' || repeat == 'y');
+	
 
 	return 0;
 }
