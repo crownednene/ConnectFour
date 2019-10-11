@@ -1,5 +1,6 @@
 #include <iostream>
 #include <cstring>
+#include <climits>
 
 using namespace std;
 
@@ -188,6 +189,13 @@ int main() {
 			viewBoard(board);
 			cout << "Player X: Place your piece on the board by entering a column number:\n";
 			cin >> in;
+
+			while (cin.fail() || in < 1 || in > 7) {
+				cin.clear();
+				cin.ignore(INT_MAX, '\n');
+				cout << "Input not recognized. Please pick a valid column number!\n";
+				cin >> in;
+			}
 			in = in - 1;
 
 			insertBoard(in, player1, board);
@@ -197,6 +205,15 @@ int main() {
 			if (win == 0) {
 				cout << "Player O: Place your piece on the board by entering a column number:\n";
 				cin >> in;
+
+				while (cin.fail() || in < 1 || in > 7) {
+					cin.clear();
+					cin.ignore(INT_MAX, '\n');
+					cout << "Input not recognized. Please pick a valid column number!\n";
+					cin >> in;
+
+				}
+
 				in = in - 1;
 				insertBoard(in, player2, board);
 				win = checkBoard(board);
