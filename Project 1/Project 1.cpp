@@ -24,7 +24,7 @@ void viewBoard(char arry[6][7]) {
 	cout << "\n";
 }
 
-//function to insert the value into the board
+//inserts the value into the board
 void insertBoard(int input, char player, char arry[6][7]) {
 	int i = 0;
 
@@ -106,7 +106,8 @@ bool checkBoard(char arry[6][7]) {
 			}
 		}
 	}
-
+	
+	//if the whole board is checked and there are no empty spots, then it's a draw
 	if (empty_space == 0) {
 		cout << "DRAW! FULL BOARD\n";
 		return true;
@@ -126,7 +127,33 @@ void resetBoard(char arry[6][7]) {
 	}
 }
 
-//have an artificial player try to beat the player
+//removes the bottom piece
+void removeBoard(int input, char player, char arry[6][7]) {
+	int i = 0;
+	int in = 0;
+	char temp = 'n';
+
+	if (arry[i][input] == player) {
+		for (i = 5; i > 0; i--) {
+			temp = arry[i - 1][input];
+			arry[i][input] = temp;
+		}
+		arry[0][input] = '.';
+	}
+	else {
+		if (arry[i][input] == '.') {
+			cout << "This is empty, please pick a different column\n";
+		}
+		else {
+			cout << "This is not one of your pieces, please pick a different column\n";
+		}
+		cin >> in;
+		in = in - 1;
+	}	
+}
+
+
+//have an AI player try to beat the player by blocking them
 void aiPlayer(char arry[6][7]) {
 	//int i, j;
 	//char compare1;
@@ -160,57 +187,84 @@ int main() {
 	//creating variables
 	bool win;
 	int i, j, n, in;
-	char player1, player2, repeat;
+	char player1, player2, repeat, remove_mode;
 
 	//initializing variables
 	win = 0;
-	repeat = 'y';
 	i = 0;
 	j = 0;
 	n = 5;
 	in = 0;
 	player1 = 'X';
 	player2 = 'O';
+	repeat = 'y';
+	remove_mode = 'n';
+
 
 	//creating and initializing the board
 	char board[6][7] = {};
 	
 	do {
 		resetBoard(board);
-			   
+		viewBoard(board);
+		cout << "Play with  piece removal mode enabled? Y/N\n";
+		cin >> remove_mode;
+
+		while (cin.fail() || ((remove_mode != 'Y') && (remove_mode != 'y') && (remove_mode != 'N') && (remove_mode != 'n'))) {
+			cin.clear();
+			cin.ignore(INT_MAX, '\n');
+			cout << "Input not recognized. Please pick Y or N.\n";
+			cin >> remove_mode;
+		}
+
 		do {
-			viewBoard(board);
-			cout << "Player X: Place your piece on the board by entering a column number:\n";
+			cout << "Player X: Place your piece on the board by entering a column number or 0 to remove one of your pieces at the bottom:\n";
 			cin >> in;
 
-			while (cin.fail() || in < 1 || in > 7) {
+			while (cin.fail() || in < 0 || in > 7) {
 				cin.clear();
 				cin.ignore(INT_MAX, '\n');
 				cout << "Input not recognized. Please pick a valid column number!\n";
 				cin >> in;
 			}
-			in = in - 1;
 
-			insertBoard(in, player1, board);
-			win = checkBoard(board);
+			if (in == 0 && (remove_mode == 'y' || remove_mode == 'Y')) {
+				cout << "Select the column whose piece you want removed (it must be one of your pieces):\n";
+				cin >> in;
+				in = in - 1;
+				removeBoard(in, player1, board);
+			}
+			else {
+				in = in - 1;
+				insertBoard(in, player1, board);
+				win = checkBoard(board);
+			}
+
 			viewBoard(board);
-
+			
 			if (win == 0) {
-				cout << "Player O: Place your piece on the board by entering a column number:\n";
+				cout << "Player O: Place your piece on the board by entering a column number or 0 to remove one of your pieces at the bottom:\n";
 				cin >> in;
 
-				while (cin.fail() || in < 1 || in > 7) {
+				while (cin.fail() || in < 0 || in > 7) {
 					cin.clear();
 					cin.ignore(INT_MAX, '\n');
 					cout << "Input not recognized. Please pick a valid column number!\n";
 					cin >> in;
-
 				}
 
-				in = in - 1;
-				insertBoard(in, player2, board);
-				win = checkBoard(board);
-				//viewBoard(board, boardCol);
+				if (in == 0 && (remove_mode == 'y' || remove_mode == 'Y')) {
+					cout << "Select the column whose piece you want removed (it must be one of your pieces):\n";
+					cin >> in;
+					in = in - 1;
+					removeBoard(in, player2, board);
+				}
+				else {
+					in = in - 1;
+					insertBoard(in, player2, board);
+					win = checkBoard(board);
+				}
+				viewBoard(board);
 			}
 
 		} while (!win);
