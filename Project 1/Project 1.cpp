@@ -4,6 +4,16 @@
 
 using namespace std;
 
+//function that resets every place on the board to '.'
+void resetBoard(char arry[6][7]) {
+	int i, j;
+	for (i = 0; i < 6; i++) {
+		for (j = 0; j < 7; j++) {
+			arry[i][j] = '.';
+		}
+	}
+}
+
 //displays the board in it's current state
 void viewBoard(char arry[6][7]) {
 	int i, j;
@@ -65,9 +75,9 @@ bool checkBoard(char arry[6][7]) {
 					else if (compare1 == 'O') {
 						cout << "VERTICAL WIN FOR O!\n";
 					}
-					
 					return true;
 				}
+				
 				else if ((compare1 == arry[i][j-1]) && (compare1 == arry[i][j-2]) && (compare1 == arry[i][j-3])) {
 					if (compare1 == 'X') {
 						cout << "HORIZONTAL WIN FOR X!\n";
@@ -112,24 +122,13 @@ bool checkBoard(char arry[6][7]) {
 		cout << "DRAW! FULL BOARD\n";
 		return true;
 	}
-
 	return false;
 }
 
 
-//function that resets every place on the board to '.'
-void resetBoard(char arry[6][7]) {
-	int i, j;
-	for (i = 0; i < 6; i++) {
-		for (j = 0; j < 7; j++) {
-			arry[i][j] = '.';
-		}
-	}
-}
-
 //removes the bottom piece
 void removeBoard(int input, char player, char arry[6][7]) {
-	int i = 0;
+	int i = 5;
 	int in = 0;
 	char temp = 'n';
 
