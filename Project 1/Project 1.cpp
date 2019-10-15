@@ -38,18 +38,33 @@ void viewBoard(char arry[6][7]) {
 //inserts the value into the board
 void insertBoard(int input, char player, char arry[6][7]) {
 	int i = 0;
-
+	input = input - 1;
+	
 	for (i = 6; i >= 0; i--) {
-		if (arry[i][input] == '.') {
-			arry[i][input] = player;
-			break;
+		if (arry[0][input] == '.') {
+			if (arry[i][input] == '.') {
+				arry[i][input] = player;
+				break;
+			}
+			else if ((arry[i][input] != '.') && (i == 0)) {
+				break;
+			}
+			else {
+				continue;
+			}
 		}
-		else if ((arry[i][input] != '.') && (i == 0)) {
-			break;
+		else{
+			cout << "The column is full, please choose somewhere else to place your piece: ";
+			cin >> input;
+			while (cin.fail() || input < 1 || input > 7) {
+				cin.clear();
+				cin.ignore(INT_MAX, '\n');
+				cout << "Input not recognized. Please pick a valid column number!\n";
+				cin >> input;
+			}
+			insertBoard(input, player, arry);
 		}
-		else {
-			continue;
-		}
+
 	}
 }
 
@@ -261,7 +276,6 @@ int main() {
 				removeBoard(in, player1, board);
 			}
 			else {
-				in = in - 1;
 				insertBoard(in, player1, board);
 				win = checkBoard(board);
 			}
@@ -286,7 +300,6 @@ int main() {
 					removeBoard(in, player2, board);
 				}
 				else {
-					in = in - 1;
 					insertBoard(in, player2, board);
 					win = checkBoard(board);
 				}
