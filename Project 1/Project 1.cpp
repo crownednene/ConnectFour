@@ -1,6 +1,7 @@
 #include <iostream>
 #include <cstring>
 #include <climits>
+#include <dos.h>
 
 using namespace std;
 
@@ -62,12 +63,12 @@ bool checkBoard(char arry[6][7]) {
 	j = 7 - 1;
 	empty_space = 0;
 
-	for (i = 6 - 1; i >= 0; i--) {
-
-		for (j = 7 - 1; j >= 0; j--) {
-
+	//definitely could've been done better but works
+	for (i = 5; i >= 0; i--) {
+		for (j = 6; j >= 0; j--) {
 			if (arry[i][j] != '.') {
 				compare1 = arry[i][j];
+				//vertical wins
 				if ((compare1 == arry[i - 1][j]) && (compare1 == arry[i - 2][j]) && (compare1 == arry[i - 3][j])) {
 					if (compare1 == 'X') {
 						cout << "VERTICAL WIN FOR X!\n";
@@ -76,9 +77,36 @@ bool checkBoard(char arry[6][7]) {
 						cout << "VERTICAL WIN FOR O!\n";
 					}
 					return true;
+				}	
+				else if ((compare1 == arry[i - 1][j]) && (compare1 == arry[i - 2][j]) && (compare1 == arry[i - 5][j])) {
+					if (compare1 == 'X') {
+						cout << "VERTICAL WIN (wrapped) FOR X!\n";
+					}
+					else if (compare1 == 'O') {
+						cout << "VERTICAL WIN (wrapped) FOR O!\n";
+					}
+					return true;
 				}
-				
-				else if ((compare1 == arry[i][j-1]) && (compare1 == arry[i][j-2]) && (compare1 == arry[i][j-3])) {
+				else if ((compare1 == arry[i - 1][j]) && (compare1 == arry[i - 5][j]) && (compare1 == arry[i - 4][j])) {
+					if (compare1 == 'X') {
+						cout << "VERTICAL WIN (wrapped 2) FOR X!\n";
+					}
+					else if (compare1 == 'O') {
+						cout << "VERTICAL WIN (wrapped 2) FOR O!\n";
+					}
+					return true;
+				}
+				else if ((compare1 == arry[i - 5][j]) && (compare1 == arry[i - 4][j]) && (compare1 == arry[i - 3][j])) {
+					if (compare1 == 'X') {
+						cout << "VERTICAL WIN (wrapped 3) FOR X!\n";
+					}
+					else if (compare1 == 'O') {
+						cout << "VERTICAL WIN (wrapped 3) FOR O!\n";
+					}
+					return true;
+				}
+				//horizontal wins
+				else if ((compare1 == arry[i][j - 1]) && (compare1 == arry[i][j - 2]) && (compare1 == arry[i][j - 3])) {
 					if (compare1 == 'X') {
 						cout << "HORIZONTAL WIN FOR X!\n";
 					}
@@ -87,7 +115,34 @@ bool checkBoard(char arry[6][7]) {
 					}
 					return true;
 				}
-
+				else if ((compare1 == arry[i][j - 1]) && (compare1 == arry[i][j - 2]) && (compare1 == arry[i][j - 6])) {
+					if (compare1 == 'X') {
+						cout << "HORIZONTAL WIN (wrapped) FOR X!\n";
+					}
+					else if (compare1 == 'O') {
+						cout << "HORIZONTAL WIN (wrapped) FOR O!\n";
+					}
+					return true;
+				}
+				else if ((compare1 == arry[i][j - 1]) && (compare1 == arry[i][j - 6]) && (compare1 == arry[i][j - 5])) {
+					if (compare1 == 'X') {
+						cout << "HORIZONTAL WIN (wrapped 2) FOR X!\n";
+					}
+					else if (compare1 == 'O') {
+						cout << "HORIZONTAL WIN (wrapped 2) FOR O!\n";
+					}
+					return true;
+				}
+				else if ((compare1 == arry[i][j - 6]) && (compare1 == arry[i][j - 5]) && (compare1 == arry[i][j - 4])) {
+					if (compare1 == 'X') {
+						cout << "HORIZONTAL WIN (wrapped 3) FOR X!\n";
+					}
+					else if (compare1 == 'O') {
+						cout << "HORIZONTAL WIN (wrapped 3) FOR O!\n";
+					}
+					return true;
+				}
+				//diagonal wins 1
 				else if ((compare1 == arry[i - 1][j - 1]) && (compare1 == arry[i - 2][j - 2]) && (compare1 == arry[i - 3][j - 3])) {
 					if (compare1 == 'X') {
 						cout << "DIAGONAL WIN 1 FOR X!\n";
@@ -98,6 +153,7 @@ bool checkBoard(char arry[6][7]) {
 					return true;
 				}
 
+				//diagonal wins 2
 				else if ((compare1 == arry[i - 1][j + 1]) && (compare1 == arry[i - 2][j + 2]) && (compare1 == arry[i - 3][j + 3])) {
 					if (compare1 == 'X') {
 						cout << "DIAGONAL WIN 2 FOR X!\n";
@@ -113,6 +169,7 @@ bool checkBoard(char arry[6][7]) {
 			}
 			else {
 				empty_space = empty_space + 1;
+				return false;
 			}
 		}
 	}
@@ -152,33 +209,34 @@ void removeBoard(int input, char player, char arry[6][7]) {
 }
 
 
-//have an AI player try to beat the player by blocking them
+//AI attack mode
 void aiPlayer(char arry[6][7]) {
-	//int i, j;
-	//char compare1;
+	int i, j;
+	char opponent = 'X';
+	char compare1 = '!';
 
-	//for (i = 6 - 1; i >= 0; i--) {
+	for (i = 5; i >= 0; i--) {
 
-	//	for (j = 7 - 1; j >= 0; j--) {
+		for (j = 6; j >= 0; j--) {
 
-	//		if (arry[i][j] != '.') {
-	//			compare1 = arry[i][j];
-	//			if ((compare1 == arry[i - 1][j]) && (compare1 == arry[i - 2][j]) && (compare1 == arry[i - 3][j])) {
-	//			}
-	//			else if ((compare1 == arry[i][j - 1]) && (compare1 == arry[i][j - 2]) && (compare1 == arry[i][j - 3])) {
-	//			}
-	//			else if ((compare1 == arry[i - 1][j - 1]) && (compare1 == arry[i - 2][j - 2]) && (compare1 == arry[i - 3][j - 3])) {
-	//			}
-	//			else if ((compare1 == arry[i - 1][j + 1]) && (compare1 == arry[i - 2][j + 2]) && (compare1 == arry[i - 3][j + 3])) {
-	//			}
-	//			else {
-	//				continue;
-	//			}
-	//		}
-	//		else {
-	//		}
-	//	}
-	//}
+			if (arry[i][j] != '.' && arry[i][j] != 'O') {
+
+				if ((compare1 == arry[i - 1][j]) && (compare1 == arry[i - 2][j]) && (compare1 == arry[i - 3][j])) {
+				}
+				else if ((compare1 == arry[i][j - 1]) && (compare1 == arry[i][j - 2]) && (compare1 == arry[i][j - 3])) {
+				}
+				else if ((compare1 == arry[i - 1][j - 1]) && (compare1 == arry[i - 2][j - 2]) && (compare1 == arry[i - 3][j - 3])) {
+				}
+				else if ((compare1 == arry[i - 1][j + 1]) && (compare1 == arry[i - 2][j + 2]) && (compare1 == arry[i - 3][j + 3])) {
+				}
+				else {
+					continue;
+				}
+			}
+			else {
+			}
+		}
+	}
 
 }
  
