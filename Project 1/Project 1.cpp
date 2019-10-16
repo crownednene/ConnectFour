@@ -1,7 +1,6 @@
 #include <iostream>
 #include <cstring>
 #include <climits>
-#include <dos.h>
 
 using namespace std;
 
@@ -64,12 +63,12 @@ void insertBoard(int input, char player, char arry[6][7]) {
 			}
 			insertBoard(input, player, arry);
 		}
-
 	}
 }
 
 //function to check if there was a win
-bool checkBoard(char arry[6][7]) {
+//the wrap-mmode is definitely verrrrryyy buggy
+bool checkBoard(char arry[6][7], char wrapchar) {
 	int i, j, empty_space;
 	char compare1;
 	int locArry[2] = {0, 0};
@@ -78,7 +77,6 @@ bool checkBoard(char arry[6][7]) {
 	j = 7 - 1;
 	empty_space = 0;
 
-	//definitely could've been done better but works
 	for (i = 5; i >= 0; i--) {
 		for (j = 6; j >= 0; j--) {
 			if (arry[i][j] != '.') {
@@ -92,33 +90,6 @@ bool checkBoard(char arry[6][7]) {
 						cout << "VERTICAL WIN FOR O!\n";
 					}
 					return true;
-				}	
-				else if ((compare1 == arry[i - 1][j]) && (compare1 == arry[i - 2][j]) && (compare1 == arry[i - 5][j])) {
-					if (compare1 == 'X') {
-						cout << "VERTICAL WIN (wrapped) FOR X!\n";
-					}
-					else if (compare1 == 'O') {
-						cout << "VERTICAL WIN (wrapped) FOR O!\n";
-					}
-					return true;
-				}
-				else if ((compare1 == arry[i - 1][j]) && (compare1 == arry[i - 5][j]) && (compare1 == arry[i - 4][j])) {
-					if (compare1 == 'X') {
-						cout << "VERTICAL WIN (wrapped 2) FOR X!\n";
-					}
-					else if (compare1 == 'O') {
-						cout << "VERTICAL WIN (wrapped 2) FOR O!\n";
-					}
-					return true;
-				}
-				else if ((compare1 == arry[i - 5][j]) && (compare1 == arry[i - 4][j]) && (compare1 == arry[i - 3][j])) {
-					if (compare1 == 'X') {
-						cout << "VERTICAL WIN (wrapped 3) FOR X!\n";
-					}
-					else if (compare1 == 'O') {
-						cout << "VERTICAL WIN (wrapped 3) FOR O!\n";
-					}
-					return true;
 				}
 				//horizontal wins
 				else if ((compare1 == arry[i][j - 1]) && (compare1 == arry[i][j - 2]) && (compare1 == arry[i][j - 3])) {
@@ -127,33 +98,6 @@ bool checkBoard(char arry[6][7]) {
 					}
 					else if (compare1 == 'O') {
 						cout << "HORIZONTAL WIN FOR O!\n";
-					}
-					return true;
-				}
-				else if ((compare1 == arry[i][j - 1]) && (compare1 == arry[i][j - 2]) && (compare1 == arry[i][j - 6])) {
-					if (compare1 == 'X') {
-						cout << "HORIZONTAL WIN (wrapped) FOR X!\n";
-					}
-					else if (compare1 == 'O') {
-						cout << "HORIZONTAL WIN (wrapped) FOR O!\n";
-					}
-					return true;
-				}
-				else if ((compare1 == arry[i][j - 1]) && (compare1 == arry[i][j - 6]) && (compare1 == arry[i][j - 5])) {
-					if (compare1 == 'X') {
-						cout << "HORIZONTAL WIN (wrapped 2) FOR X!\n";
-					}
-					else if (compare1 == 'O') {
-						cout << "HORIZONTAL WIN (wrapped 2) FOR O!\n";
-					}
-					return true;
-				}
-				else if ((compare1 == arry[i][j - 6]) && (compare1 == arry[i][j - 5]) && (compare1 == arry[i][j - 4])) {
-					if (compare1 == 'X') {
-						cout << "HORIZONTAL WIN (wrapped 3) FOR X!\n";
-					}
-					else if (compare1 == 'O') {
-						cout << "HORIZONTAL WIN (wrapped 3) FOR O!\n";
 					}
 					return true;
 				}
@@ -167,7 +111,7 @@ bool checkBoard(char arry[6][7]) {
 					}
 					return true;
 				}
-
+				
 				//diagonal wins 2
 				else if ((compare1 == arry[i - 1][j + 1]) && (compare1 == arry[i - 2][j + 2]) && (compare1 == arry[i - 3][j + 3])) {
 					if (compare1 == 'X') {
@@ -177,6 +121,120 @@ bool checkBoard(char arry[6][7]) {
 						cout << "DIAGONAL WIN 2 FOR O!\n";
 					}
 					return true;
+				}
+				else if (wrapchar == 'y' || wrapchar == 'Y') {
+					//vertical wrapped scenarios
+					if ((compare1 == arry[i - 1][j]) && (compare1 == arry[i - 2][j]) && (compare1 == arry[i - 5][j])) {
+						if (compare1 == 'X') {
+							cout << "VERTICAL WIN (wrapped) FOR X!\n";
+						}
+						else if (compare1 == 'O') {
+							cout << "VERTICAL WIN (wrapped) FOR O!\n";
+						}
+						return true;
+					}
+					else if ((compare1 == arry[i - 1][j]) && (compare1 == arry[i - 5][j]) && (compare1 == arry[i - 4][j])) {
+						if (compare1 == 'X') {
+							cout << "VERTICAL WIN (wrapped 2) FOR X!\n";
+						}
+						else if (compare1 == 'O') {
+							cout << "VERTICAL WIN (wrapped 2) FOR O!\n";
+						}
+						return true;
+					}
+					else if ((compare1 == arry[i - 5][j]) && (compare1 == arry[i - 4][j]) && (compare1 == arry[i - 3][j])) {
+						if (compare1 == 'X') {
+							cout << "VERTICAL WIN (wrapped 3) FOR X!\n";
+						}
+						else if (compare1 == 'O') {
+							cout << "VERTICAL WIN (wrapped 3) FOR O!\n";
+						}
+						return true;
+					}
+					//horizonal wrapped scenarios
+					else if ((compare1 == arry[i][j - 1]) && (compare1 == arry[i][j - 2]) && (compare1 == arry[i][j - 6])) {
+						if (compare1 == 'X') {
+							cout << "HORIZONTAL WIN (wrapped) FOR X!\n";
+						}
+						else if (compare1 == 'O') {
+							cout << "HORIZONTAL WIN (wrapped) FOR O!\n";
+						}
+						return true;
+					}
+					else if ((compare1 == arry[i][j - 1]) && (compare1 == arry[i][j - 6]) && (compare1 == arry[i][j - 5])) {
+						if (compare1 == 'X') {
+							cout << "HORIZONTAL WIN (wrapped 2) FOR X!\n";
+						}
+						else if (compare1 == 'O') {
+							cout << "HORIZONTAL WIN (wrapped 2) FOR O!\n";
+						}
+						return true;
+					}
+					else if ((compare1 == arry[i][j - 6]) && (compare1 == arry[i][j - 5]) && (compare1 == arry[i][j - 4])) {
+						if (compare1 == 'X') {
+							cout << "HORIZONTAL WIN (wrapped 3) FOR X!\n";
+						}
+						else if (compare1 == 'O') {
+							cout << "HORIZONTAL WIN (wrapped 3) FOR O!\n";
+						}
+						return true;
+					}
+					//diagonal wrapped scenario 1
+					else if ((compare1 == arry[i - 1][j - 1]) && (compare1 == arry[i - 2][j - 2]) && (compare1 == arry[i - 3][j + 6])) {
+						if (compare1 == 'X') {
+							cout << "DIAGONAL WIN 1 (wrapped 1) FOR X!\n";
+						}
+						else if (compare1 == 'O') {
+							cout << "DIAGONAL WIN 1 (wrapped 1) FOR O!\n";
+						}
+						return true;
+					}
+					else if ((compare1 == arry[i - 1][j - 1]) && (compare1 == arry[i - 2][j + 6]) && (compare1 == arry[i - 3][j + 5])) {
+						if (compare1 == 'X') {
+							cout << "DIAGONAL WIN 1 (wrapped 2) FOR X!\n";
+						}
+						else if (compare1 == 'O') {
+							cout << "DIAGONAL WIN 1 (wrapped 2) FOR O!\n";
+						}
+						return true;
+					}
+					else if ((compare1 == arry[i - 1][j + 6]) && (compare1 == arry[i - 2][j + 5]) && (compare1 == arry[i - 3][j + 4])) {
+						if (compare1 == 'X') {
+							cout << "DIAGONAL WIN 1 (wrapped 3) FOR X!\n";
+						}
+						else if (compare1 == 'O') {
+							cout << "DIAGONAL WIN 1 (wrapped 3) FOR O!\n";
+						}
+						return true;
+					}
+					//diagonal wrapped scenarios 2
+					else if ((compare1 == arry[i - 1][j + 1]) && (compare1 == arry[i - 2][j + 2]) && (compare1 == arry[i - 3][j - 6])) {
+						if (compare1 == 'X') {
+							cout << "DIAGONAL WIN 2 FOR X!\n";
+						}
+						else if (compare1 == 'O') {
+							cout << "DIAGONAL WIN 2 FOR O!\n";
+						}
+						return true;
+					}
+					else if ((compare1 == arry[i - 1][j + 1]) && (compare1 == arry[i - 2][j - 6]) && (compare1 == arry[i - 3][j - 5])) {
+						if (compare1 == 'X') {
+							cout << "DIAGONAL WIN 2 FOR X!\n";
+						}
+						else if (compare1 == 'O') {
+							cout << "DIAGONAL WIN 2 FOR O!\n";
+						}
+						return true;
+					}
+					else if ((compare1 == arry[i - 1][j - 6]) && (compare1 == arry[i - 2][j - 5]) && (compare1 == arry[i - 3][j - 4])) {
+						if (compare1 == 'X') {
+							cout << "DIAGONAL WIN 2 FOR X!\n";
+						}
+						else if (compare1 == 'O') {
+							cout << "DIAGONAL WIN 2 FOR O!\n";
+						}
+						return true;
+					}
 				}
 				else {
 					continue;
@@ -196,7 +254,6 @@ bool checkBoard(char arry[6][7]) {
 	}
 	return false;
 }
-
 
 //removes the bottom piece
 void removeBoard(int input, char player, char arry[6][7]) {
@@ -228,7 +285,7 @@ int main() {
 	//creating variables
 	bool win;
 	int i, j, n, in;
-	char player1, player2, repeat, remove_mode;
+	char player1, player2, repeat, remove_mode, wrap_mode;
 
 	//initializing variables
 	win = 0;
@@ -240,6 +297,7 @@ int main() {
 	player2 = 'O';
 	repeat = 'y';
 	remove_mode = 'n';
+	wrap_mode = 'n';
 
 
 	//creating and initializing the board
@@ -248,6 +306,7 @@ int main() {
 	do {
 		resetBoard(board);
 		viewBoard(board);
+		
 		cout << "Play with  piece removal mode enabled? Y/N\n";
 		cin >> remove_mode;
 
@@ -256,6 +315,16 @@ int main() {
 			cin.ignore(INT_MAX, '\n');
 			cout << "Input not recognized. Please pick Y or N.\n";
 			cin >> remove_mode;
+		}
+		
+		cout << "Play with wrap mode enabled?\n";
+		cin >> wrap_mode;
+
+		while (cin.fail() || ((remove_mode != 'Y') && (remove_mode != 'y') && (remove_mode != 'N') && (remove_mode != 'n'))) {
+			cin.clear();
+			cin.ignore(INT_MAX, '\n');
+			cout << "Input not recognized. Please pick Y or N.\n";
+			cin >> wrap_mode;
 		}
 
 		do {
@@ -277,7 +346,7 @@ int main() {
 			}
 			else {
 				insertBoard(in, player1, board);
-				win = checkBoard(board);
+				win = checkBoard(board, wrap_mode);
 			}
 
 			viewBoard(board);
@@ -301,7 +370,7 @@ int main() {
 				}
 				else {
 					insertBoard(in, player2, board);
-					win = checkBoard(board);
+					win = checkBoard(board, wrap_mode);
 				}
 				viewBoard(board);
 			}
@@ -315,7 +384,6 @@ int main() {
 			cout << "Input not recognized. Please pick Y/N\n";
 			cin >> repeat;
 		} 
-
 
 	} while (repeat == 'Y' || repeat == 'y');
 	
