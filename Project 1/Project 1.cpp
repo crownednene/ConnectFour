@@ -67,7 +67,7 @@ void insertBoard(int input, char player, char arry[6][7]) {
 }
 
 //function to check if there was a win
-//the wrap-mmode is definitely verrrrryyy buggy
+//the wrap-mode is definitely verrrrryyy buggy
 bool checkBoard(char arry[6][7], char wrapchar) {
 	int i, j, empty_space;
 	char compare1;
